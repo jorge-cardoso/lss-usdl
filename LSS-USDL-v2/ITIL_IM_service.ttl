@@ -1,0 +1,481 @@
+@prefix : <http://acme_services.org/itil_im_service#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix lss-usdl: <http://w3id.org/lss-usdl/v1#> .
+
+@prefix dbpedia: <http://dbpedia.org/#> .
+@prefix dbpediar: <http://dbpedia.org/resource/> .
+@prefix itsmo: <http://ontology.it/itsmo/v1#> .
+
+
+# -----------------------------
+# Service System
+# -----------------------------
+
+:IMService a lss-usdl:ServiceSystem ;
+  rdfs:label "ITIL Incident Management Service" ;
+  rdfs:comment "A service system for Incident Management, based on ITIL specs. The main objective of the incident management process is to resume the regular state of affairs as quickly as possible and minimize the impact on business processes." ;
+  lss-usdl:hasGoal :SolveIncident ;
+
+  owl:sameAs dbpedia:Incident_Management ;
+  itsmo:hasAgreement itsmo:Agreement ;
+
+  lss-usdl:hasInteraction 
+  		:IncidentIdentification ,
+		:IncidentLogging ,
+		:IncidentCategorization ,
+		:IncidentPrioritization ,
+		:InitialDiagnosis ,
+		:IncidentScalation ,
+		:InvestigationDiagnosis ,
+		:ResolutionRecovery ,
+		:IncidentClosing ;
+		
+   lss-usdl:hasControlFlow
+   	 	:ControlFlow_Ide_Log,
+		:ControlFlow_Log_Cat , 
+		:ServiceRequest , 
+		:ControlFlow_Cat_SR , 
+		:ControlFlow_SR_Pri , 
+		:ControlFlow_Pri_MI ,
+		:ControlFlow_MI_Dia ,
+		:ControlFlow_Dia_E ,
+		:ControlFlow_E_Esc ,
+		:ControlFlow_E_IDia ,
+		:ControlFlow_Esc_IDia ,
+		:ControlFlow_IDia_Res ,
+		:ControlFlow_Res .
+		
+	
+# -----------------------------
+# Flow of interactions
+# -----------------------------
+
+:ControlFlow_Ide_Log a lss-usdl:ControlFlow ;
+	rdfs:label "Identification to Logging" ;
+	lss-usdl:hasSource :IncidentIdentification ;
+	lss-usdl:hasTarget :IncidentLogging ;
+	lss-usdl:hasCondition "true"@en .
+
+:ControlFlow_Log_Cat a lss-usdl:ControlFlow ;
+	rdfs:label "Logging to Categorization" ;
+	lss-usdl:hasSource :IncidentLogging ;
+	lss-usdl:hasTarget :IncidentCategorization ;
+	lss-usdl:hasCondition "true"@en .
+
+:ServiceRequest a lss-usdl:XOR ;
+	rdfs:label "XOR: Service Request (SR)" .
+
+:ControlFlow_Cat_SR a lss-usdl:ControlFlow ;
+	rdfs:label "Categorization to SR" ;
+	lss-usdl:hasSource :IncidentCategorization ;
+	lss-usdl:hasTarget :ServiceRequest ;
+	lss-usdl:hasCondition "true"@en .
+
+:ControlFlow_SR_Pri a lss-usdl:ControlFlow ;
+	rdfs:label "SR to Prioritization" ;
+	lss-usdl:hasSource :ServiceRequest ;
+	lss-usdl:hasTarget :IncidentPrioritization ;
+	lss-usdl:hasCondition "If Service Request = No"@en .
+
+:MajorIncident a lss-usdl:XOR ;
+	rdfs:label "XOR: Major Incident (MI)" .
+
+:ControlFlow_Pri_MI a lss-usdl:ControlFlow ;
+	rdfs:label "Prioritization to MI" ;
+	lss-usdl:hasSource :IncidentPrioritization ;
+	lss-usdl:hasTarget :MajorIncident ;
+	lss-usdl:hasCondition "true"@en .
+
+:ControlFlow_MI_Dia a lss-usdl:ControlFlow ;
+	rdfs:label "MI to Initial Diagnosis" ;
+	lss-usdl:hasSource :MajorIncident ;
+	lss-usdl:hasTarget :InitialDiagnosis ;
+	lss-usdl:hasCondition "if Major Incident = No"@en .
+
+:ControlFlow_Dia_E a lss-usdl:ControlFlow ;
+	rdfs:label "Initial Diagnosis to E" ;
+	lss-usdl:hasSource :InitialDiagnosis ;
+	lss-usdl:hasTarget :Escalation ;
+	lss-usdl:hasCondition "true"@en .
+
+:Escalation a lss-usdl:XOR ;
+	rdfs:label "XOR: Escalation (E)" .
+
+:ControlFlow_E_Esc a lss-usdl:ControlFlow ;
+	rdfs:label "E to Incident Escalation" ;
+	lss-usdl:hasSource :Escalation ;
+	lss-usdl:hasTarget :IncidentEscalation ;
+	lss-usdl:hasCondition "Escalation = True"@en .
+
+:ControlFlow_E_IDia a lss-usdl:ControlFlow ;
+	rdfs:label "E to Investigation Diagnosis" ;
+	lss-usdl:hasSource :Escalation ;
+	lss-usdl:hasTarget :InvestigationDiagnosis ;
+	lss-usdl:hasCondition "Escalation = No"@en .
+
+:ControlFlow_Esc_IDia a lss-usdl:ControlFlow ;
+	rdfs:label "E to Investigation Diagnosis" ;
+	lss-usdl:hasSource :IncidentEscalation ;
+	lss-usdl:hasTarget :InvestigationDiagnosis ;
+	lss-usdl:hasCondition "Escalation = No"@en .
+
+:ControlFlow_IDia_Res a lss-usdl:ControlFlow ;
+	rdfs:label "E to Investigation Diagnosis" ;
+	lss-usdl:hasSource :InvestigationDiagnosis ;
+	lss-usdl:hasTarget :ResolutionRecovery ;
+	lss-usdl:hasCondition "true"@en .
+
+:ControlFlow_Res a lss-usdl:ControlFlow ;
+	rdfs:label "E to Investigation Diagnosis" ;
+	lss-usdl:hasSource :ResolutionRecovery ;
+	lss-usdl:hasTarget :IncidentClosing ;
+	lss-usdl:hasCondition "true"@en .
+
+
+# Next: flow of interactions
+
+# -----------------------------
+# Incident Identification
+# -----------------------------
+
+:IncidentIdentification a lss-usdl:CustomerInteraction ;
+	rdfs:label "Incident Identification" ;
+	lss-usdl:performedBy :ServiceDeskTeamMember ;
+	lss-usdl:hasGoal :OpenIncident ;
+	lss-usdl:hasLocation :ServiceDesk ;
+	lss-usdl:belongsToProcess :IncidentManagement ;
+	lss-usdl:receivesResource :UserData ;
+	lss-usdl:receivesResource :SymptomsDescritpion ;
+	lss-usdl:createsResource :IncidentID ;
+	lss-usdl:createsResource :IncidentReport ;
+	lss-usdl:returnsResource :IncidentReport ;
+	lss-usdl:hasTime 
+		[ a lss-usdl:Time ;
+    		lss-usdl:hasTemporalEntity :IncidentIdentificationTime ] .
+
+
+# -----------------------------
+# Incident is Logged
+# -----------------------------
+
+:IncidentLogging a lss-usdl:BackstageInteraction ;
+	rdfs:label "An incident is logged" ; 
+	rdfs:comment "Incidents reported to the Service Desk must be logged with the date and time stamp that they were generated." ; 
+	lss-usdl:performedBy :ServiceDeskManager ; 
+	lss-usdl:hasGoal :DealWithReportedIncident ; 
+	lss-usdl:hasLocation :Company ; 
+	lss-usdl:belongsToProcess :ITServicesIncidentManagement ;
+	lss-usdl:consumesResource :ReporterData ; 
+	lss-usdl:consumesResource :IncidentData ; 
+	lss-usdl:createsResource :IncidentRecord ;
+	lss-usdl:createsResource :IncidentID ;
+
+	lss-usdl:hasTime 
+		[ a lss-usdl:Time ; 
+			lss-usdl:hasTemporalEntity :IncidentLoggingTime ] .
+
+:IncidentLoggingTime a time:ProperInterval ; 
+	time:intervalAfter :IncidentIdentificationTime ; 
+	time:intervalBefore :IncidentCategorizationTime . 
+	
+
+# -----------------------------
+# Categorize Incident
+# -----------------------------
+
+:IncidentCategorization a lss-usdl:BackstageInteraction ;
+	rdfs:label "Categorize Incident" ;
+	lss-usdl:performedBy :ServiceDeskTeamMember ;
+	lss-usdl:hasGoal :ClassifyIncident ;
+	lss-usdl:hasLocation :ServiceDesk ;
+	lss-usdl:belongsToProcess :IncidentManagement ;
+	lss-usdl:receivesResource :IncidentReport ;
+	lss-usdl:consumeResource :IncidentReport ;
+	lss-usdl:hasTime 
+		[ a lss-usdl:Time ;
+    		lss-usdl:hasTemporalEntity :IncidentCategorizationTime
+		] .
+
+
+# -----------------------------
+# Prioritise Incident
+# -----------------------------
+
+:IncidentPrioritization a lss-usdl:BackstageInteraction ;
+	rdfs:label "prioritise Incident" ;
+	lss-usdl:performedBy :ServiceDeskTeamMember ;
+	lss-usdl:hasGoal :ClassifyIncident ;
+	lss-usdl:hasLocation :ServiceDesk ;
+	lss-usdl:belongsToProcess :IncidentManagement ;
+	lss-usdl:receivesResource :IncidentReport ;
+	lss-usdl:consumeResource :IncidentReport ;
+	lss-usdl:hasTime 
+		[ a lss-usdl:Time ;
+   		 	lss-usdl:hasTemporalEntity :IncidentPrioritizationTime
+		 ] .
+
+
+# -----------------------------
+# Initial Diagnosis of Incident
+# -----------------------------
+
+
+:InitialDiagnosis a lss-usdl:BackstageInteraction ; 
+rdfs:label "An initial diagnosis for the incident is performed" ; 
+rdfs:comment "The initial diagnosis of incidents is mainly a human process. The Service Desk technical staff looks at the information within the incident and communicates with the user to diagnose the problem." ; 
+
+lss-usdl:performedBy :TechnicalStaff ;
+	lss-usdl:hasGoal :HandleIncident ; 
+	lss-usdl:hasTime [ a lss-usdl:Time ;
+		lss-usdl:hasTemporalEntity :InitialDiagnosisTime ] ; 
+	lss-usdl:hasLocation :ABCompany ; 
+	lss-usdl:belongsToProcess :ITServiceIncidentManagement ; 
+	lss-usdl:consumesResource :IncidentRecord .
+
+:IncidentInitialDiagnosisTime a time:ProperInterval ;
+	time:intervalAfter :DetermineIfIncidentIsMajorTime ; 
+	time:intervalBefore :DetermineIfFunctionalScalationIsNeededTime . 
+
+
+# -----------------------------
+# Incident Escalation
+# -----------------------------
+
+:IncidentEscalation a lss-usdl:SupportInteraction ;
+	rdfs:label "Escalation of Incident" ;
+	lss-usdl:performedBy :ServiceDeskTeamMember ;
+	lss-usdl:performedBy :ServiceDeskManager ;
+	lss-usdl:performedBy :User ;
+	lss-usdl:hasGoal :SolveIncident ;
+	lss-usdl:hasLocation :ServiceDesk ;
+	lss-usdl:belongsToProcess :IncidentManagement ;
+	lss-usdl:receivesResource :IncidentReport ;
+	lss-usdl:consumeResource :IncidentReport .
+
+
+# -----------------------------
+# Incident Investigation and Diagnosis
+# -----------------------------
+
+:InvestigationDiagnosis a lss-usdl:SupportInteraction ;
+	rdfs:label "Investigate and diagnose Incident" ;
+	lss-usdl:performedBy :TechnicalStaffMember ;
+	lss-usdl:performedBy :ExternalTechnicalStaffMember ;
+	lss-usdl:hasGoal :DiagnoseIncident ;
+	lss-usdl:hasLocation :ServiceDesk ;
+	lss-usdl:belongsToProcess :IncidentManagement ;
+	lss-usdl:receivesResource :IncidentReport ;
+	lss-usdl:consumeResource :IncidentReport ;
+	lss-usdl:hasTime [ a lss-usdl:Time ;
+     lss-usdl:hasTemporalEntity :InvestigationDiagnosisTime] .
+
+
+# -----------------------------
+# Incident Resolution Recovery
+# -----------------------------
+
+:ResolutionRecovery a lss-usdl:SupportInteraction ;
+	rdfs:label "Resolution and recovery de systems affected by Incident" ;
+	lss-usdl:performedBy :OfficeDeskMember ;
+	lss-usdl:hasGoal :SolveIncident ;
+	lss-usdl:hasLocation :ServiceDesk ;
+	lss-usdl:hasLocation :UserDesk ;
+	lss-usdl:belongsToProcess :IncidentManagement ;
+	lss-usdl:receivesResource :IncidentReport ;
+	lss-usdl:consumeResource :IncidentReport ;
+	lss-usdl:hasTime [ a lss-usdl:Time ;
+    lss-usdl:hasTemporalEntity :ResolutionRecoveryTime] .
+
+
+# -----------------------------
+# Incident Closure
+# -----------------------------
+
+:IncidentClosing a lss-usdl:CustomerInteraction ;
+	rdfs:label "Close Incident" ;
+	lss-usdl:performedBy :OfficeDeskMember ;
+	lss-usdl:hasGoal :IncidentTraceability ;
+	lss-usdl:hasLocation :ServiceDesk ;
+	lss-usdl:belongsToProcess :IncidentManagement ;
+	lss-usdl:receivesResource :IncidentReport ;
+	lss-usdl:consumeResource :IncidentReport ;
+	lss-usdl:hasTime [ a lss-usdl:Time ;
+    lss-usdl:hasTemporalEntity :IncidentClosingTime] .
+			 
+
+# -----------------------------
+# Business Entities
+# -----------------------------
+
+:TheCompany a gr:BusinessEntity ;
+	foaf:name "The Company" ;
+	rdfs:comment "The company where the IM process happend" .
+	
+:TechnologySupplierCompany a gr:BusinessEntity ;
+	foaf:name "Supplier Company" ;
+	rdfs:comment "Other company that participate of the IM process" .
+
+
+# -----------------------------
+# Roles
+# -----------------------------
+
+:IncidentManager a lss-usdl:Role ;
+	rdfs:label "Incident Manager" ;
+	rdfs:comment "The person who owns the results of the Incident Management process" ;
+  lss-usdl:belongsToBusinessEntity :ABCompany .
+  
+:EndUser a lss-usdl:Role ;
+	rdfs:label "End User" ;
+	rdfs:comment "The end users and employees of a company that experience difficulties with IT." ;  
+    lss-usdl:belongsToBusinessEntity :ABCompany .
+    
+:ServiceDeskManager a lss-usdl:Role ;
+	rdfs:label "Service Desk Manager" ;
+	rdfs:comment "Functions as the primary point of contact for incidents reported from users." ;
+	lss-usdl:belongsToBusinessEntity :ABCompany.
+
+:TechnicalStaff a lss-usdl:Role ;
+	rdfs:label "Technical Staff" ;
+	rdfs:comment "Support Technical Staff" ;
+	lss-usdl:belongsToBusinessEntity :ABCompany .
+	
+:ProblemManager a lss-usdl:Role ;
+	rdfs:label "Problem Manager" ;
+	rdfs:comment "Responsible for managing the lifecycle of all problems." ; 
+  	lss-usdl:belongsToBusinessEntity :ExtCompany .
+
+
+# -----------------------------
+# Goals
+# -----------------------------
+
+:SolveIncident a lss-usdl:Goal ;
+	rdfs:label "Restore normal service operation as quickly as possible" ;
+	rdfs:comment "It should minimize the adverse impact on business operations" .
+
+:OpenIncident a lss-usdl:Goal ;
+	rdfs:label "Start Incident management process instance" ;
+	rdfs:comment "Open an Incident to the IM process" .
+
+:DiagnoseIncident a lss-usdl:Goal ;
+	rdfs:label "Diagnose the incident cause" ;
+	rdfs:comment "Analyst diagnose incident cause" .
+
+:IncidentTraceability a lss-usdl:Goal ;
+	rdfs:label "Traceability of Incidents" ;
+	rdfs:comment "Allow follow up and audit" .
+
+:ClassifyIncident a lss-usdl:Goal ;
+	rdfs:label "Incident Classification" ;
+	rdfs:comment "Helps to order IM process" .
+
+
+# -----------------------------
+# Locations
+# -----------------------------
+
+:ServiceDesk a lss-usdl:Location;
+  rdfs:label "Service Desk Offices".
+#  lss-usdl:isLocationFrom <http://sws.geonames.org/3441575/>.
+
+:UserOffice a lss-usdl:Location;
+  rdfs:label "User office".
+#  lss-usdl:isLocationFrom <http://sws.geonames.org/3441575/>.
+
+
+
+# -----------------------------
+# Resources
+# -----------------------------
+
+# We should define Incident as a physical or KnowledgeResource resource?
+# An unplanned interruption or quality reduction to an IT service
+
+:IncidentRegister a lss-usdl:KnowledgeResource ;
+	rdfs:label "Incident knowledge base" ;
+	rdfs:comment "Register of all relevant incident information" ;
+	lss-usdl:hasQualitativeValue :URN, :Priority, :UserInfo, :SymptomsDescription ;
+	lss-usdl:hasQuantitativeValue :IncidentCategorization .
+
+
+# Linked Resources from DBPedia
+
+:IncidentID a dbpediar:Identifier ;
+	rdfs:label "Incident ID" .
+
+:IncidentReport a dbpediar:Report ;
+	rdfs:label "Report" .
+	
+#				a dbpediar:Form_\(Document\);
+
+
+
+# Defining Values, we should define domains for each one ?
+:URN a gr:QualitativeValue;
+	rdfs:comment "Unique reference number".
+
+:Priority a gr:QuantitativeValue;
+	gr:hasMinValue 1;
+	rdfs:comment "Priority assigned to incident".
+
+:IncidentCategorization a gr:QualitativeValue ;
+	rdfs:comment "Incident categorization (often broken down into between two and four levels of sub-categories)" .
+
+:SymptomsDescription a gr:QualitativeValue ;
+	rdfs:comment "Description of incident symptoms" .
+
+
+# -----------------------------
+# Processes
+# -----------------------------
+
+:IncidentManagement a lss-usdl:Process ;
+	rdfs:label "Incident Management" .
+
+# -----------------------------
+# Time
+# -----------------------------
+:IncidentIdentificationTime a time:ProperInterval ;
+   time:intervalAfter :IncidentCategorizationTime .
+   
+:IncidentCategorizationTime a time:ProperInterval ;
+   time:intervalBefore :IncidentIdentificationTime ;
+   time:intervalAfter :IncidentPrioritizationTime .
+
+:IncidentPrioritizationTime a time:ProperInterval ;
+   time:intervalBefore :IncidentCategorization ;
+   time:intervalAfter :InitialDiagnosisTime .
+
+:InitialDiagnosisTime a time:ProperInterval ;
+   time:intervalBefore :IncidentPrioritizationTime ;
+   time:intervalAfter :InvestigationDiagnosisTime .
+
+:InvestigationDiagnosisTime a time:ProperInterval ;
+   time:intervalBefore :InitialDiagnosisTime ;
+   time:intervalAfter :ResolutionRecoveryTime ;
+   time:intervalEquals :scalationFirstTime .
+
+:ResolutionRecoveryTime a time:ProperInterval ;
+   time:intervalBefore :InvestigationDiagnosisTime ;
+   time:intervalAfter :IncidentClosureTime ;
+   time:intervalEquals :scalationSecondTime .	
+
+:IncidentClosingTime a time:ProperInterval;
+   time:intervalBefore :ResolutionRecoveryTime.
+
+:scalationFirstTime a time:TemporalEntity ;
+   rdfs:label "Scalation time for first level" ;
+   rdfs:comment "Need to define hasDurationDescription" .
+
+:scalationSecondTime a time:TemporalEntity ;
+   rdfs:label "Scalation time for second level" ;
+   rdfs:comment "Need to define hasDurationDescription" .
+
+

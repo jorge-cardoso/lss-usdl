@@ -1,0 +1,207 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix gr: <http://purl.org/goodrelations/v1#> .
+@prefix gn: <http://www.geonames.org/ontology#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dbpedia: <http://dbpedia.org/> .
+@prefix bpmn: <http://www.scch.at/ontologies/bpmn20.owl> .
+
+@prefix lss-usdl: <http://w3id.org/lss-usdl/v2#> .
+
+
+<http://w3id.org/lss-usdl/v2> a owl:Ontology;
+    dc:title "LSS-USDL";
+    vann:preferredNamespaceUri "<http://w3id.org/lss-usdl/v2#";
+    vann:preferredNamespacePrefix "lss-usdl";
+    dc:creator lss-usdl:rplopes,
+    dc:creator lss-usdl:jcardoso .
+
+lss-usdl:rplopes a foaf:Person;
+    foaf:name "Ricardo Lopes";
+    foaf:homepage <http://ricardolopes.net/> .
+
+lss-usdl:UC a foaf:Organization;
+    foaf:member lss-usdl:rplopes;
+    foaf:name "DEI/University of Coimbra";
+    foaf:homepage <http://www.dei.uc.pt/> .
+
+lss-usdl:jcardoso a foaf:Person;
+    foaf:name "Jorge Cardoso";
+    foaf:homepage <http://eden.dei.uc.pt/~jcardoso/> .
+
+
+# Classes Service System and Contol Flow
+
+lss-usdl:ServiceSystem a rdfs:Class, owl:Class;
+    rdfs:label "Service System"@en .
+
+lss-usdl:ControlFlow a rdfs:Class, owl:Class;
+	rdfs:label "Control-flow"@en .
+
+lss-usdl:Source a rdfs:Class, owl:Class;
+	owl:unionOf (lss-usdl:LogicalConnector lss-usdl:Interaction);	
+	rdfs:label "Source"@en .
+	
+lss-usdl:Target a rdfs:Class, owl:Class;
+	owl:unionOf (lss-usdl:LogicalConnector lss-usdl:Interaction);	
+	rdfs:label "Target"@en .
+
+lss-usdl:LogicalConnector a rdfs:Class, owl:Class;
+	rdfs:label "Logical Connector"@en .	
+
+lss-usdl:XOR a rdfs:Class, owl:Class;
+	rdfs:subClassOf lss-usdl:LogicalConnector;
+    rdfs:label "XOR" .
+
+lss-usdl:AND a rdfs:Class, owl:Class;
+	rdfs:subClassOf lss-usdl:LogicalConnector;
+    rdfs:label "AND" .
+
+lss-usdl:OR a rdfs:Class, owl:Class;
+	rdfs:subClassOf lss-usdl:LogicalConnector;
+	rdfs:label "OR" .
+	
+
+# Properties Service System adn Control Flow
+
+lss-usdl:hasControlFlow a rdf:Property;
+    rdfs:label "has control-flow"@en ;
+	rdfs:domain lss-usdl:ServiceSystem;
+    rdfs:range  lss-usdl:ControlFlow.
+
+lss-usdl:hasSource a rdf:Property;
+	rdfs:label "has control-flow"@en ;
+	rdfs:domain lss-usdl:ControlFlow;
+	rdfs:range  lss-usdl:Source.
+
+lss-usdl:hasTarget a rdf:Property;
+	rdfs:label "has control-flow"@en ;
+	rdfs:domain lss-usdl:ControlFlow;
+	rdfs:range  lss-usdl:Target.
+
+lss-usdl:hasCondition a rdf:Property;
+    rdfs:label "has condition"@en ;
+	rdfs:domain lss-usdl:ControlFlow;
+    rdfs:range  xsd:string.	
+	
+	
+
+# Classes InteractionPoint
+
+lss-usdl:Interaction a rdfs:Class, owl:Class;
+    rdfs:subClassOf skos:Concept;
+    rdfs:label "Interaction" .
+
+lss-usdl:Role a rdfs:Class, owl:Class;
+    rdfs:label "Role" .
+
+lss-usdl:Time a rdfs:Class, owl:Class;
+    rdfs:label "Time" .
+
+lss-usdl:Goal a rdfs:Class, owl:Class;
+    rdfs:label "Goal" .
+
+lss-usdl:Location a rdfs:Class, owl:Class;
+    rdfs:label "Location" .
+
+lss-usdl:Process a rdfs:Class, owl:Class;
+    rdfs:label "Process" .
+
+lss-usdl:Resource a rdfs:Class, owl:Class;
+    rdfs:subClassOf skos:Concept;
+    rdfs:label "Resource" .
+
+
+# Properties InteractionPoint
+
+lss-usdl:hasInteraction a rdf:Property;
+    rdfs:label "has interaction";
+    rdfs:domain lss-usdl:ServiceSystem;
+    rdfs:range lss-usdl:Interaction .
+
+lss-usdl:isPerformedBy a rdf:Property;
+    rdfs:label "is performed by";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Role .
+
+lss-usdl:hasTime a rdf:Property;
+    rdfs:label "has time";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Time .
+
+lss-usdl:hasGoal a rdf:Property;
+    rdfs:label "has goal";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Goal .
+
+lss-usdl:hasLocation a rdf:Property;
+    rdfs:label "has location";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Location .
+
+lss-usdl:belongsToProcess a rdf:Property;
+    rdfs:label "belongs to process";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Process .
+
+lss-usdl:receivesResource a rdf:Property;
+    rdfs:label "receives resource";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Resource .
+
+lss-usdl:createsResource a rdf:Property;
+    rdfs:label "creates resource";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Resource .
+
+lss-usdl:consumesResource a rdf:Property;
+    rdfs:label "consumes resource";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Resource .
+
+lss-usdl:returnsResource a rdf:Property;
+    rdfs:label "returns resource";
+    rdfs:domain lss-usdl:Interaction;
+    rdfs:range lss-usdl:Resource .
+
+lss-usdl:belongsToBusinessEntity a rdf:Property;
+    rdfs:label "belongs to business entity";
+    rdfs:domain lss-usdl:Role;
+    rdfs:range gr:BusinessEntity .
+
+lss-usdl:hasTemporalEntity a rdf:Property;
+    rdfs:label "has temporal entity";
+    rdfs:domain lss-usdl:Time;
+    rdfs:range time:TemporalEntity .
+
+lss-usdl:isLocatedIn a rdf:Property;
+    rdfs:label "is located in";
+    rdfs:domain lss-usdl:Location;
+    rdfs:range lss-usdl:Location .
+
+lss-usdl:isLocationFrom a rdf:Property;
+    rdfs:label "is location from";
+    rdfs:domain lss-usdl:Location;
+    rdfs:range gn:Feature .
+
+lss-usdl:hasQuantitativeValue a rdf:Property;
+    rdfs:label "has quantitative value";
+    rdfs:domain lss-usdl:Resource;
+    rdfs:range gr:QuantitativeValue .
+
+lss-usdl:hasDBpediaResource a rdf:Property;
+    rdfs:label "has DBpedia resource";
+    rdfs:domain lss-usdl:Resource;
+    rdfs:range dbpedia:resource .
+
+lss-usdl:hasBPMN a rdf:Property;
+    rdfs:label "has BPMN";
+    rdfs:domain lss-usdl:Process;
+    rdfs:range bpmn:Process .
+	
