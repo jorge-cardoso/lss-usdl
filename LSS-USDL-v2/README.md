@@ -164,7 +164,7 @@ For entities that have already been created we only need to point at them. So if
   lss-usdl:isPerformedBy :Sender .
 ```
 
-For the interactions created, we can now define the control flow that exists between them. We start by adding a control flow element to the service system previously constructed. In the following example, two contol flow elements are created:
+For the interactions created, we can now define the control flow that exists between them. We start by adding a control flow element to the service system previously constructed. In the following example, a contol flow element is created:
 
 ```
 :ExpressMailDelivery a lss-usdl:ServiceSystem ;
