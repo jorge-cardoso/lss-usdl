@@ -68,7 +68,7 @@ lss-usdl:OR a rdfs:Class, owl:Class;
 	rdfs:label "OR" .
 	
 
-# Properties Service System and Control Flow
+# Properties Service System adn Control Flow
 
 lss-usdl:hasControlFlow a rdf:Property;
     rdfs:label "has control-flow"@en ;

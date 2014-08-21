@@ -1,5 +1,6 @@
 from rdflib import Graph, RDF, URIRef,  RDFS #, Literal, BNode
 from SPARQLWrapper import SPARQLWrapper, JSON
+import sys, getopt
 
         
 class ServiceSystem:
@@ -9,14 +10,14 @@ class ServiceSystem:
 
     def __init__(self, filename):
         ServiceSystem.filename = filename
-        ServiceSystem.g.parse("file:ITIL_IM_service.ttl", format='n3')
+        ServiceSystem.g.parse(filename, format='n3')
       
     #------------------------------------------------------------------
     #---------- Show information about the Service System ------------- 
     #------------------------------------------------------------------
     def getServiceInformation(self):
        
-       URIServiceSystem = URIRef("http://w3id.org/lss-usdl/v1#ServiceSystem")
+       URIServiceSystem = URIRef("http://w3id.org/lss-usdl/v2#ServiceSystem")
        if ( None, RDF.type, URIServiceSystem ) in ServiceSystem.g:
            lss = ServiceSystem.g.value(predicate = RDF.type, object = URIServiceSystem, any = False)
            #print "Service System found! " + lss
@@ -30,7 +31,7 @@ class ServiceSystem:
            raise Exception("Cannot find Service System description!!")
 
 # Can also be done this way   
-#       for lss in ServiceSystem.g.subjects(RDF.type, URIRef("http://w3id.org/lss-usdl/v1#ServiceSystem")):    
+#       for lss in ServiceSystem.g.subjects(RDF.type, URIRef("http://w3id.org/lss-usdl/v2#ServiceSystem")):    
 #           print "Service System Name: ", lss.rsplit("#", 2)[1]          
 #       for lss_description in ServiceSystem.g.objects(lss, RDFS.comment):
 #           print "Description:", lss_description    
@@ -47,7 +48,7 @@ class ServiceSystem:
     #------------------------------------------------------------------
     def getInteractions(self):
         qres = ServiceSystem.g.query(
-            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v1#>
+            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v2#>
                 SELECT DISTINCT ?a ?b
                 WHERE {
                   ?a lss-usdl:hasInteraction ?b .
@@ -66,7 +67,7 @@ class ServiceSystem:
 # Can also be done this way            
 #       print("")
 #       print "--- Interaction Points: ---" 
-#       for sub, obj in ServiceSystem.g.subject_objects(URIRef("http://w3id.org/lss-usdl/v1#hasInteraction")):
+#       for sub, obj in ServiceSystem.g.subject_objects(URIRef("http://w3id.org/lss-usdl/v2#hasInteraction")):
 #          interaction = obj.rsplit("#", 2)[1]
 #          print interaction            
 
@@ -76,7 +77,7 @@ class ServiceSystem:
     #------------------------------------------------------------------
     def getConnectors(self):
         qres = ServiceSystem.g.query(
-            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v1#>
+            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v2#>
                 SELECT DISTINCT ?src ?tgt ?cond
                 WHERE {
                   ?ss lss-usdl:hasControlFlow ?cf.
@@ -103,7 +104,7 @@ class ServiceSystem:
     #------------------------------------------------------------------
     def getRoles(self):
         qres = ServiceSystem.g.query(
-            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v1#>
+            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v2#>
                 SELECT DISTINCT ?role
                 WHERE {
                   ?s ?prop ?o .
@@ -126,7 +127,7 @@ class ServiceSystem:
 #------------------------------------------------------------------
     def getInterationsByRole(self):
         qres = ServiceSystem.g.query(
-            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v1#>
+            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v2#>
                 SELECT DISTINCT ?lss ?int ?role
                 WHERE {
                   ?lss lss-usdl:hasInteraction ?int .
@@ -149,7 +150,7 @@ class ServiceSystem:
 #------------------------------------------------------------------
     def getInteractionResources(self):
         qres = ServiceSystem.g.query(
-        """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v1#>
+        """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v2#>
             SELECT DISTINCT ?lss ?int ?resource
             WHERE {
               ?lss lss-usdl:hasInteraction ?int .
@@ -172,7 +173,7 @@ class ServiceSystem:
 #------------------------------------------------------------------
     def getInteractionResourcesReceived(self):
         qres = ServiceSystem.g.query(
-            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v1#>
+            """PREFIX  lss-usdl:  <http://w3id.org/lss-usdl/v2#>
                 SELECT DISTINCT ?lss ?int ?role
                 WHERE {
                   ?lss lss-usdl:hasInteraction ?int .
@@ -197,7 +198,7 @@ class ServiceSystem:
 #
     def getFirstInteraction(self):
         qres = ServiceSystem.g.query(
-            """PREFIX  lss-usdl: <http://w3id.org/lss-usdl/v1#>
+            """PREFIX  lss-usdl: <http://w3id.org/lss-usdl/v2#>
                PREFIX time: <http://www.w3.org/2006/time/>
                 SELECT DISTINCT ?lss ?tgt
                 WHERE {
@@ -224,7 +225,7 @@ class ServiceSystem:
 #
     def getLastInteraction(self):
         qres = ServiceSystem.g.query(
-            """PREFIX  lss-usdl: <http://w3id.org/lss-usdl/v1#>
+            """PREFIX  lss-usdl: <http://w3id.org/lss-usdl/v2#>
                PREFIX time: <http://www.w3.org/2006/time/>
                 SELECT DISTINCT ?lss ?tgt
                 WHERE {
@@ -249,7 +250,7 @@ class ServiceSystem:
 #------------------------------------------------------------------
     def getDBPediaResources(self):
         qres = ServiceSystem.g.query(
-            """PREFIX  lss-usdl: <http://w3id.org/lss-usdl/v1#>
+            """PREFIX  lss-usdl: <http://w3id.org/lss-usdl/v2#>
                PREFIX dbpedia: <http://dbpedia.org/>
                 SELECT DISTINCT ?int ?res ?dbres
                 WHERE {
@@ -294,70 +295,96 @@ class ServiceSystem:
         return results
         
 
-ss = ServiceSystem("file:ITIL_IM_service.ttl")
-results = ss.getServiceInformation()
-print "Service System name: " + results[0].rsplit("#", 2)[1] 
-print "Service System desc: " + results[1]
-print("")        
 
-results = ss.getInteractions()
-for interation in results:
-    print "Interaction: " + interation
-print("")        
 
-results = ss.getConnectors()
-for result in results:
-    str = 'getConnectors: (' + result[0] + ' -> ' + result[1] + ') with condition "' + result[2] + '"'''
-    print str
-print("")        
+#------------------------------------------------------------------
+#-------------- parse command line  -------------------------------
+#------------------------------------------------------------------
 
-results = ss.getRoles()
-for role in results:
-    print "getRoles: " + role
-print("")  
+if __name__ == "__main__":
 
-results = ss.getInterationsByRole()
-for result in results:
-    str = 'getInterationsByRole: ' + result[0] + ' with role ' + result[1]
-    print str
-print("") 
+    inputfile = ''
+    try:
+        opts, args = getopt.getopt(sys.argv[1:],"hf:",["file="])
+    except getopt.GetoptError:
+        print 'LSS-USDL_API.py -f <service_system_file>'
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print 'LSS-USDL_API.py -f <service_system_file>'
+            sys.exit()
+        elif opt in ("-f", "--file"):
+            inputfile = arg
 
-results = ss.getInteractionResources()
-for result in results:
-    str = 'getInteractionResources: ' + result[0] + ' with resource ' + result[1]
-    print str
-print("") 
+    print 'Input file is: ', inputfile
+    print("")        
 
-results = ss.getInteractionResourcesReceived()
-for result in results:
-    str = 'getInteractionResourcesReceived: ' + result[0] + ' with resource ' + result[1]
-    print str
-print("") 
+    ss = ServiceSystem("file:" + inputfile)
+    results = ss.getServiceInformation()
+    print "Service System name: " + results[0].rsplit("#", 2)[1] 
+    print "Service System desc: " + results[1]
+    print("")        
 
-results = ss.getFirstInteraction()
-str = 'getFirstInteraction: ' + results 
-print str
-print("") 
+    results = ss.getInteractions()
+    for interation in results:
+        print "Interaction: " + interation
+    print("")        
 
-results = ss.getLastInteraction()
-str = 'getLastInteraction: ' + results 
-print str
-print("") 
+    results = ss.getConnectors()
+    for result in results:
+        str = 'getConnectors: (' + result[0] + ' -> ' + result[1] + ') with condition "' + result[2] + '"'''
+        print str
+    print("")        
 
-results = ss.getDBPediaResources()
-for result in results:
-    str = 'getDBPediaResources: ' + result[0] + ' with resource ' + result[1] + ' -> ' + result[2]
-    print str
-print("") 
+    results = ss.getRoles()
+    for role in results:
+        print "getRoles: " + role
+    print("")  
 
-results = ss.getDBPediaResources()
-for result in results:
-    dbpediaAbstracts = ss.getDBPediaAbstract(result[2])
-    for dbpediaAbstract in dbpediaAbstracts:
-        str = 'getDBPediaAbstract: ' + result[2] + ': ' +  dbpediaAbstract 
+    results = ss.getInterationsByRole()
+    for result in results:
+        str = 'getInterationsByRole: ' + result[0] + ' with role ' + result[1]
+        print str
+    print("") 
+
+    results = ss.getInteractionResources()
+    for result in results:
+        str = 'getInteractionResources: ' + result[0] + ' with resource ' + result[1]
+        print str
+    print("") 
+
+    results = ss.getInteractionResourcesReceived()
+    for result in results:
+        str = 'getInteractionResourcesReceived: ' + result[0] + ' with resource ' + result[1]
+        print str
+    print("") 
+
+    results = ss.getFirstInteraction()
+    if results:
+        str = 'getFirstInteraction: ' + results 
         print str
         print("") 
-print("") 
+
+    results = ss.getLastInteraction()
+    if results:
+        str = 'getLastInteraction: ' + results 
+        print str
+        print("") 
+
+    results = ss.getDBPediaResources()
+    for result in results:
+        str = 'getDBPediaResources: ' + result[0] + ' with resource ' + result[1] + ' -> ' + result[2]
+        print str
+    print("") 
+
+    results = ss.getDBPediaResources()
+    for result in results:
+        dbpediaAbstracts = ss.getDBPediaAbstract(result[2])
+        for dbpediaAbstract in dbpediaAbstracts:
+            str = 'getDBPediaAbstract: ' + result[2] + ': ' +  dbpediaAbstract 
+            print str
+            print("") 
+    print("") 
 
 
 

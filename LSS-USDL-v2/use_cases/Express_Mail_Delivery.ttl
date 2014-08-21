@@ -1,4 +1,4 @@
-@prefix : <http://genssiz.org/lss-usdl/expressmaildelivery#> .
+@prefix : <http://acme_services.org/express_mail#> .
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -9,7 +9,7 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
 @prefix time: <http://www.w3.org/2006/time#> .
 @prefix gn: <http://www.geonames.org/ontology#> .
-@prefix lss-usdl: <http://genssiz.dei.uc.pt/lss-usdl#> .
+@prefix lss-usdl: <http://w3id.org/lss-usdl/v2#> .
 
 
 # Service System
@@ -17,23 +17,116 @@
 :ExpressMailDelivery a lss-usdl:ServiceSystem;
   rdfs:label "Express Mail Delivery";
   rdfs:comment "A service system for delivering mail from a sender to a receiver.";
-  lss-usdl:hasInteraction :CustomerCalls,
-    :CustomerOrderIsRegistered,
-    :DispatchDriver,
-    :DriverPicksUpPackages,
-    :CustomerDeliversPackages,
-    :AirportReceivesAndLoads,
-    :FlyToDestination,
-    :UnloadAndLoadOnTruck,
-    :DriverDeliversPackages,
-    :AnotherCustomerReceivesPackage.
+
+  lss-usdl:hasInteraction
+  	:CustomerCalls ,
+    :CustomerOrderIsRegistered ,
+    :DispatchDriver ,
+    :DriverPicksUpPackages ,
+    :CustomerDeliversPackages ,
+    :AirportReceivesAndLoads ,
+    :FlyToDestination ,
+    :UnloadAndLoadOnTruck ,
+    :DriverDeliversPackages ,
+    :AnotherCustomerReceivesPackage ;
+
+  lss-usdl:hasControlFlow
+   	:ControlFlow_Call_Order ,
+	:ControlFlow_Order_Dispatch , 
+	:ControlFlow_Dispatch_Picks , 
+ 	:ControlFlow_Picks_Airport ,
+ 	:ControlFlow_Airport_FlyS ,
+ 	:ControlFlow_FlyS_Sort ,
+ 	:ControlFlow_Sort_LoadA ,
+ 	:ControlFlow_LoadA_FlyD ,
+ 	:ControlFlow_FlyD_Unload ,
+ 	:ControlFlow_Unload_LoadT ,
+ 	:ControlFlow_LoadT_Deliver ,
+ 	:ControlFlow_Deliver_Receives .
+
+
+	# -----------------------------
+	# Flow of interactions
+	# -----------------------------
+
+	:ControlFlow_Call_Order a lss-usdl:ControlFlow ;
+		rdfs:label "Customer Calls to Consumer service order" ;
+		lss-usdl:hasSource :CustomerCalls ;
+		lss-usdl:hasTarget :CustomerOrderIsRegistered ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_Order_Dispatch a lss-usdl:ControlFlow ;
+		rdfs:label "Consumer service order to dispatch driver" ;
+		lss-usdl:hasSource :CustomerOrderIsRegistered ;
+		lss-usdl:hasTarget :DispatchDriver ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_Dispatch_Picks a lss-usdl:ControlFlow ;
+		rdfs:label "Dispatch driver to Driver picks up package" ;
+		lss-usdl:hasSource :DispatchDriver ;
+		lss-usdl:hasTarget :DriverPicksUpPackages ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_Picks_Airport a lss-usdl:ControlFlow ;
+		rdfs:label "Categorization to SR" ;
+		lss-usdl:hasSource :DriverPicksUpPackages ;
+		lss-usdl:hasTarget :AirportReceivesAndLoads ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_Airport_FlyS a lss-usdl:ControlFlow ;
+		rdfs:label "Airport receives and load to Fly to sort center" ;
+		lss-usdl:hasSource :AirportReceivesAndLoads ;
+		lss-usdl:hasTarget :FlyToSortCenter ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_FlyS_Sort a lss-usdl:ControlFlow ;
+		rdfs:label "Fly to sort center to Sort packages" ;
+		lss-usdl:hasSource :FlyToSortCenter ;
+		lss-usdl:hasTarget :SortPackages ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_Sort_LoadA a lss-usdl:ControlFlow ;
+		rdfs:label "Sort packages to Load airplane" ;
+		lss-usdl:hasSource :SortPackages ;
+		lss-usdl:hasTarget :LoadAirplane ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_LoadA_FlyD a lss-usdl:ControlFlow ;
+		rdfs:label "Load airplane to Fly to destination" ;
+		lss-usdl:hasSource :LoadAirplane ;
+		lss-usdl:hasTarget :FlyToDestinationTime ;
+		lss-usdl:hasCondition "true"@en .	
+		
+	:ControlFlow_FlyD_Unload a lss-usdl:ControlFlow ;
+		rdfs:label "Fly to destination to Unload and sort" ;
+		lss-usdl:hasSource :FlyToDestinationTime ;
+		lss-usdl:hasTarget :UnloadAndSort ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_Unload_LoadT a lss-usdl:ControlFlow ;
+		rdfs:label "Unload and sort to Load on truck" ;
+		lss-usdl:hasSource :UnloadAndSort ;
+		lss-usdl:hasTarget :LoadOnTruck ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_LoadT_Deliver a lss-usdl:ControlFlow ;
+		rdfs:label "Load on truck to deliver package" ;
+		lss-usdl:hasSource :LoadOnTruck ;
+		lss-usdl:hasTarget :DriverDeliversPackages ;
+		lss-usdl:hasCondition "true"@en .
+
+	:ControlFlow_Deliver_Receives a lss-usdl:ControlFlow ;
+		rdfs:label "Delivers package to Receives package" ;
+		lss-usdl:hasSource :DriverDeliversPackages ;
+		lss-usdl:hasTarget :AnotherCustomerReceivesPackage ;
+		lss-usdl:hasCondition "true"@en .
+
 
 
 # Business Entities
 
 :ExpressMailCompany a gr:BusinessEntity;
   foaf:name "Express Mail Company".
-
 
 # Roles
 
@@ -121,13 +214,8 @@
 	rdfs:label "Mail delivery".
 
 
-# Next: flow of interactions
-
-
 # Customer calls
 
-:CustomerCallsTime a time:ProperInterval;
-  time:intervalEquals :CustomerOrderIsRegisteredTime.
 
 :CustomerCalls a lss-usdl:CustomerInteraction;
 	rdfs:label "Customer calls";
@@ -142,11 +230,8 @@
 	lss-usdl:receivesResource :SenderData;
 	lss-usdl:receivesResource :ReceiverData.
 
-# Customer order is registered
 
-:CustomerOrderIsRegisteredTime a time:ProperInterval;
-  time:intervalEquals :CustomerCallsTime;
-  time:intervalBefore :DispatchDriverTime.
+# Customer order is registered
 
 :CustomerOrderIsRegistered a lss-usdl:BackstageInteraction;
 	rdfs:label "Customer order is registered";
@@ -159,11 +244,8 @@
 	lss-usdl:hasLocation :CallCenter;
 	lss-usdl:belongsToProcess :MailDelivery.
 
-# Dispatch driver
 
-:DispatchDriverTime a time:ProperInterval;
-  time:intervalAfter :CustomerOrderIsRegisteredTime;
-  time:intervalBefore :DriverPicksUpPackagesTime.
+# Dispatch driver
 
 :DispatchDriver a lss-usdl:SupportInteraction;
 	rdfs:label "Dispatch driver";
@@ -177,11 +259,6 @@
 
 # Driver picks up packages
 
-:DriverPicksUpPackagesTime a time:ProperInterval;
-  time:intervalAfter :DispatchDriverTime;
-  time:intervalEquals :CustomerDeliversPackagesTime;
-  time:intervalBefore :AirportReceivesAndLoadsTime.
-
 :DriverPicksUpPackages a lss-usdl:OnstageInteraction;
 	rdfs:label "Driver picks up packages";
 	lss-usdl:performedBy :Driver;
@@ -194,9 +271,6 @@
 	lss-usdl:belongsToProcess :MailDelivery.
 
 # Customer delivers packages
-
-:CustomerDeliversPackagesTime a time:ProperInterval;
-  time:intervalEquals :DriverPicksUpPackagesTime.
 
 :CustomerDeliversPackages a lss-usdl:CustomerInteraction;
 	rdfs:label "Customer delivers packages";
@@ -212,10 +286,6 @@
 
 # Airport receives and loads
 
-:AirportReceivesAndLoadsTime a time:ProperInterval;
-  time:intervalAfter :DriverPicksUpPackagesTime;
-  time:intervalBefore :FlyToDestinationTime.
-
 :AirportReceivesAndLoads a lss-usdl:SupportInteraction;
 	rdfs:label "Airport receives and loads";
 	lss-usdl:performedBy :Driver;
@@ -226,12 +296,27 @@
   ];
 	lss-usdl:hasLocation :SourceAirport;
 	lss-usdl:belongsToProcess :MailDelivery.
+	
+
+# Fly to destination	
+
+:FlyToSortCenter a lss-usdl:SupportInteraction;
+	rdfs:label "Fly to sort center" .
+
+
+# Sort packages	
+
+:SortPackages a lss-usdl:SupportInteraction;
+	rdfs:label "Sort packages" . 
+
+
+# Load airplane	
+
+:LoadAirplane a lss-usdl:SupportInteraction;
+	rdfs:label "Load airplane" .
+
 
 # Fly to destination
-
-:FlyToDestinationTime a time:ProperInterval;
-  time:intervalAfter :AirportReceivesAndLoadsTime;
-  time:intervalBefore :UnloadAndLoadOnTruckTime.
 
 :FlyToDestination a lss-usdl:SupportInteraction;
 	rdfs:label "Fly to destination";
@@ -243,14 +328,11 @@
 	lss-usdl:belongsToProcess :MailDelivery;
 	lss-usdl:hasAreaOfAction :SupportProcesses.
 
-# Unload and load on truck
 
-:UnloadAndLoadOnTruckTime a time:ProperInterval;
-  time:intervalAfter :FlyToDestinationTime;
-  time:intervalBefore :DriverDeliversPackagesTime.
+# Unload and sort on truck
 
-:UnloadAndLoadOnTruck a lss-usdl:SupportInteraction;
-	rdfs:label "Unload and load on truck";
+:UnloadAndSort a lss-usdl:SupportInteraction;
+	rdfs:label "Unload and sort";
 	lss-usdl:performedBy :Driver;
 	lss-usdl:hasGoal :SendMail;
 	lss-usdl:hasTime [
@@ -260,11 +342,14 @@
 	lss-usdl:hasLocation :DestinyAirport;
 	lss-usdl:belongsToProcess :MailDelivery.
 
-# Driver delivers packages
 
-:DriverDeliversPackagesTime a time:ProperInterval;
-  time:intervalAfter :UnloadAndLoadOnTruckTime;
-  time:intervalEquals :AnotherCustomerReceivesPackagesTime.
+# Load on truck	
+
+:LoadOnTruck a lss-usdl:SupportInteraction;
+	rdfs:label "Load on truck" .
+
+
+# Driver delivers packages
 
 :DriverDeliversPackages a lss-usdl:OnstageInteraction;
 	rdfs:label "Driver delivers packages";
@@ -277,10 +362,8 @@
 	lss-usdl:hasLocation :ReceiverHome;
 	lss-usdl:belongsToProcess :MailDelivery.
 
-# Another customer receives packages
 
-:AnotherCustomerReceivesPackagesTime a time:ProperInterval;
-  time:intervalEquals :DriverDeliversPackagesTime.
+# Another customer receives packages
 
 :AnotherCustomerReceivesPackage a lss-usdl:CustomerInteraction;
 	rdfs:label "Another customer receives package";
