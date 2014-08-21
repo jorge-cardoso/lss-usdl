@@ -53,7 +53,7 @@ A graph of the full ontology may be viewed in the images directory of the projec
  - `Source`, which describes the source (a `LogicalConnector` or an `Interaction`) of a control flow element, through the property `hasSource`
  - `Target`, which describes the target (a `LogicalConnector` or an `Interaction`) of a control flow element, through the property `hasTarget`
  - `xsd:string`, which describes the condition to satisfy to enable the activation of a control flow, through the property `hasCondition`
- - `XOR`, `AND`, and `OR`, which describes the type of `LogicalConnector` that can exist. 
+ - `XOR`, `AND`, and `OR`, the type of `LogicalConnector` available. 
 
 A `ServiceSystem` is connected to an `Interaction`, which represents service interactions, through the property `hasInteraction`.
 
