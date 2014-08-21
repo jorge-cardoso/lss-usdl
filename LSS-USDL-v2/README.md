@@ -32,7 +32,7 @@ The elements that represent each of those answers are, respectively, the role of
 
 This contextualization of service interactions is the core of LSS-USDL. It is called 6-point interaction star and can be viewed in the images directory of the project.
 
-![The 6-point interaction star model](/path/to/img.jpg "6-point interaction model")
+![The 6-point interaction star model](https://github.com/jorge-cardoso/lss-usdl/blob/master/LSS-USDL-v2/images/6-point_interaction_star.png "6-point interaction model")
 
 
 ### Extending Interactions and Resources
