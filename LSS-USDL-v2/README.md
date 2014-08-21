@@ -164,6 +164,27 @@ For entities that have already been created we only need to point at them. So if
   lss-usdl:isPerformedBy :Sender .
 ```
 
+For the interactions created, we can now define the control flow that exists between them. We start by adding a control flow element to the service system previously constructed. In the following example, two contol flow elements are created:
+
+```
+:ExpressMailDelivery a lss-usdl:ServiceSystem ;
+...
+# Add a control flow element 
+:hasControlFlow
+   	:ControlFlow_Call_Order . 
+	
+```
+
+The `ControlFlow_Call_Order` has the following elements:
+
+```
+	:ControlFlow_Call_Order a lss-usdl:ControlFlow ;
+		rdfs:label "Customer Calls to Consumer service order" ;
+		lss-usdl:hasSource :CustomerCalls ;
+		lss-usdl:hasTarget :CustomerOrderIsRegistered ;
+		lss-usdl:hasCondition "true"@en .
+```
+
 The code we have so far should now look like this:
 
 ```
@@ -178,7 +199,16 @@ The code we have so far should now look like this:
   rdfs:label "Express Mail Delivery";
   rdfs:comment "A service system for delivering express mails";
   lss-usdl:hasInteraction :CustomerCalls,
-    :CustomerDeliversPackages .
+    :CustomerOrderIsRegistered .
+
+:hasControlFlow
+   	:ControlFlow_Call_Order. 
+
+:ControlFlow_Call_Order a lss-usdl:ControlFlow ;
+		rdfs:label "Customer Calls to Consumer service order" ;
+		lss-usdl:hasSource :CustomerCalls ;
+		lss-usdl:hasTarget :CustomerOrderIsRegistered ;
+		lss-usdl:hasCondition "true"@en .
 
 :CustomerCalls a lss-usdl:CustomerInteraction;
   rdfs:label "Customer calls";
@@ -186,9 +216,9 @@ The code we have so far should now look like this:
   lss-usdl:isPerformedBy :Sender;
   lss-usdl:hasLocation :SenderHome .
 
-:CustomerDeliversPackages a lss-usdl:CustomerInteraction;
-  rdfs:label "Customer delivers packages";
-  lss-usdl:isPerformedBy :Sender .
+:CustomerOrderIsRegistered a lss-usdl:BackstageInteraction;
+	rdfs:label "Customer order is registered";
+	lss-usdl:performedBy :CallCenterStaff .
 
 :SendMail a lss-usdl:Goal;
   rdfs:label "Send mail" .
