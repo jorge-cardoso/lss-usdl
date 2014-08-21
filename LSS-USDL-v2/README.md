@@ -80,9 +80,9 @@ A `Resource` is connected to a `QuantitativeValue` of the ontology [GoodRelation
 
 ## Getting Started Tutorial
 
-A service system modeled in LSS-USDL is represented by RDF statements. We will use the Turtle notation because it's cleaner and easy to read and edit.
+A service system modeled in LSS-USDL is represented by RDF statements. We will use the Turtle notation because it's cleaner and easy to read and edit. 
 
-The first step is to create a file that will hold the service model. For an express mail delivery service system we may create the file maildelivery.ttl. These are the RDF prefixes we need for this tutorial (you may add others and remove any that you might not use):
+The first step is to create a file that will hold the service model. For an express mail delivery service system we may create the file `EMail_Delivery.ttl`. The use case directory has a couple examples of service systems (see [The Express Mail Delivery service systems](https://github.com/jorge-cardoso/lss-usdl/blob/master/LSS-USDL-v2/use_cases/Express_Mail_Delivery.pdf)).These are the RDF prefixes we need for this tutorial (you may add others and remove any that you might not use):
 
 ```
 @prefix : <http://genssiz.org/lss-usdl/expressmail#> . # this is the prefix for our example, change the URL to match yours
