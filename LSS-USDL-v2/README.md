@@ -21,7 +21,7 @@ A service system can be expressed as the flow of its interactions.
 
 #### Flow
 
-The flow of interactions has been inspired from Event-driven Process Chain (EPC), a type of flowchart used for business process modelling. To keep the process model, we do not use events. Only functions are allowed. When more complex process models need to be designed, the 'how' interrogative pronouns can be used to indicate a process model, which can be specified using BPMN, Petri nets, BPEL, or any other formalism. Slips and joins are not explictly defined. They are infered by the number of outgoing/incomming arcs/edges of a transition connecting two interactions. 
+The flow of interactions has been inspired from Event-driven Process Chain (EPC), a type of flowchart used for business process modelling. To keep the process model simple, we do not use events. Only functions are allowed. When more complex process models need to be designed, the 'how' interrogative pronouns can be used to indicate a process model specified using BPMN, Petri nets, BPEL, or any other formalism. Splits and joins are not explictly defined. They are infered by the number of outgoing/incomming arcs/edges of a logical connector. 
 
 
 #### Interactions
