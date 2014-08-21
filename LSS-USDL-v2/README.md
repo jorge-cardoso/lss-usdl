@@ -14,15 +14,26 @@ Linked Service Systems for USDL (LSS-USDL) is an ontology for modeling service s
  - Because this ontology uses Semantic Web tools and integrates with the Linked Data Cloud, a strong data integration is also ensured
  - Service models may create custom service descriptions aimed at customers that could be used in a generic online services marketplace
 
+
 ## Model Explanation
 
-### 6-Point Interaction Star
+A service system can be expressed as the flow of its interactions. 
 
-A service system can be expressed as the flow of its interactions. Service interactions take place when any actor interacts with the service system. We use the journalism interrogative pronouns (who, how, why, where, when, what) to give a better context to service interactions.
+#### Flow
+
+The flow of interactions has been inspired from Event-driven Process Chain (EPC), a type of flowchart used for business process modelling. To keep the process model, we do not use events. Only functions are allowed. When more complex process models need to be designed, the 'how' interrogative pronouns can be used to indicate a process model, which can be specified using BPMN, Petri nets, BPEL, or any other formalism. Slips and joins are not explictly defined. They are infered by the number of outgoing/incomming arcs/edges of a transition connecting two interactions. 
+
+
+#### Interactions
+
+Service interactions take place when any actor interacts with the service system. We use the journalism interrogative pronouns (who, how, why, where, when, what) to give a better context to service interactions.
 
 The elements that represent each of those answers are, respectively, the role of the actor that is interacting, the process that describes how the service works, the goal behind why such an interaction is taking place, the location, the time and the resources that enter or leave the service system during that interaction.
 
 This contextualization of service interactions is the core of LSS-USDL. It is called 6-point interaction star and can be viewed in the images directory of the project.
+
+![The 6-point interaction star model](/path/to/img.jpg "6-point interaction model")
+
 
 ### Extending Interactions and Resources
 
@@ -36,7 +47,15 @@ These classifications are depicted in the images directory of the project. Note,
 
 A graph of the full ontology may be viewed in the images directory of the project. This subsection explains its elements and their relations.
 
-`ServiceSystem` is the entity that represents the service system that is being modeled. A `ServiceSystem` is connected to an `Interaction`, which represents service interactions, through the property `hasInteraction`.
+`ServiceSystem` is the entity that represents the service system that is being modeled. A `ServiceSystem` specified the flow of interactions using the property `hasControlFlow` and the class `ControlFlow`. 
+
+`ControlFlow` is connected to the following elements:
+ - `Source`, which describes the source (a `LogicalConnector` or an `Interaction`) of a control flow element, through the property `hasSource`
+ - `Target`, which describes the target (a `LogicalConnector` or an `Interaction`) of a control flow element, through the property `hasTarget`
+ - `xsd:string`, which describes the condition to satisfy to enable the activation of a control flow, through the property `hasCondition`
+ - `XOR`, `AND`, and `OR`, which describes the type of `LogicalConnector` that can exist. 
+
+A `ServiceSystem` is connected to an `Interaction`, which represents service interactions, through the property `hasInteraction`.
 
 `Interaction` is connected to the following elements:
 
