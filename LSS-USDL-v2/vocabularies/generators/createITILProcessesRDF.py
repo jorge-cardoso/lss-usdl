@@ -17,10 +17,15 @@ soup = BeautifulSoup(open("ITIL-Processes.html"))
 
 g = Graph()
 g.namespace_manager.bind("itil", "http://eden.dei.uc.pt/~jcardoso/rdf/itil/processes.ttl#")
+g.namespace_manager.bind("itilrole", "http://eden.dei.uc.pt/~jcardoso/rdf/itil/roles.ttl#")
+g.namespace_manager.bind("itilproc", "http://eden.dei.uc.pt/~jcardoso/rdf/itil/processes.ttl#")
+g.namespace_manager.bind("itilglos", "http://eden.dei.uc.pt/~jcardoso/rdf/itil/glossary.ttl#")
+
 g.namespace_manager.bind("foaf", FOAF)
 g.namespace_manager.bind("skos", SKOS)
 g.namespace_manager.bind("dc", DC)
 itil = Namespace("http://eden.dei.uc.pt/~jcardoso/rdf/itil/processes.ttl#")
+
 
 g.add( (URIRef("http://eden.dei.uc.pt/~jcardoso/rdf/itil/processes.ttl"), RDF.type, OWL.ontology) )
 g.add( (itil["jcardoso"], RDF.type, FOAF.Person) )

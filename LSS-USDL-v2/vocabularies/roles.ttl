@@ -1,0 +1,321 @@
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix itilglos: <http://eden.dei.uc.pt/~jcardoso/rdf/itil/glossary.ttl#> .
+@prefix itilproc: <http://eden.dei.uc.pt/~jcardoso/rdf/itil/processes.ttl#> .
+@prefix itilrole: <http://eden.dei.uc.pt/~jcardoso/rdf/itil/roles.ttl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<http://eden.dei.uc.pt/~jcardoso/rdf/itil/roles.ttl> a <http://www.w3.org/2002/07/owl#ontology> .
+
+itilrole: dc:creator itilrole:jcardoso .
+
+<http://eden.dei.uc.pt/~jcardoso/rdf/itil/roles.ttl#1st_Level_Support> a skos:concept ;
+    rdfs:label "1st Level Support" ;
+    skos:definition "1st Level Support also processes Service Requests and keeps users informed about their Incidents' status at agreed intervals.",
+        "If no ad-hoc solution can be achieved, 1st Level Support will transfer the Incident to expert technical support groups (2nd Level Support).",
+        "The responsibility of 1st Level Support is to register and classify received Incidents and to undertake an immediate effort in order to restore a failed IT service as quickly as possible." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "1st Level Support" .
+
+<http://eden.dei.uc.pt/~jcardoso/rdf/itil/roles.ttl#2nd_Level_Support> a skos:concept ;
+    rdfs:label "2nd Level Support" ;
+    skos:definition "2nd Level Support takes over Incidents which cannot be solved immediately with the means of1st Level Support.",
+        "If necessary, it will request external support, e.g. from software or hardware manufacturers.",
+        "If no solution can be found, the 2nd Level Support passes on the Incident toProblem Management.",
+        "The aim is to restore a failed IT Service as quickly as possible." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "2nd Level Support" .
+
+<http://eden.dei.uc.pt/~jcardoso/rdf/itil/roles.ttl#3rd_Level_Support> a skos:concept ;
+    rdfs:label "3rd Level Support" ;
+    skos:definition "3rd Level Support is typically located at hardware or software manufacturers (third-party suppliers).",
+        "Its services are requested by2nd Level Supportif required for solving an Incident.",
+        "The aim is to restore a failed IT Service as quickly as possible." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "3rd Level Support" .
+
+itilrole:Access_Manager a skos:concept ;
+    rdfs:label "Access Manager" ;
+    skos:definition "The Access Manager essentially executes policies defined in Information Security Management.",
+        "The Access Manager grants authorized users the right to use a service, while preventing access to non-authorized users." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Access Manager" .
+
+itilrole:Application_Developer a skos:concept ;
+    rdfs:label "Application Developer" ;
+    skos:definition "The Application Developer is responsible for making available applications and systems which provide the required functionality for IT services.",
+        "This includes the development and maintenance of custom applications as well as the customization of products from software vendors." ;
+    skos:member itilproc:Service_Transition,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Application Developer" .
+
+itilrole:Applications_Analyst a skos:concept ;
+    rdfs:label "Applications Analyst" ;
+    skos:definition "It is also responsible for developing the skills required to operate the applications required to deliver IT services.",
+        "The Applications Analyst is an Application Management role which manages applications throughout their lifecycle.",
+        "There is typically one Applications Analyst or team of analysts for every key application.",
+        "This role plays an important part in the application-related aspects of designing, testing, operating and improving IT services." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Applications Analyst" .
+
+itilrole:Availability_Manager a skos:concept ;
+    rdfs:label "Availability Manager" ;
+    skos:definition "He is responsible for ensuring that all IT infrastructure, processes, tools, roles etc. are appropriate for the agreed service level targets for availability.",
+        "The Availability Manager is responsible for defining, analyzing, planning, measuring and improving all aspects of the availability of IT services." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Availability Manager" .
+
+itilrole:Business_Relationship_Manager a skos:concept ;
+    rdfs:label "Business Relationship Manager" ;
+    skos:definition "The Business Relationship Manager has been introduced as a new role in ITIL 2011.",
+        "The Business Relationship Manager is responsible for maintaining a positive relationship with customers, identifying customer needs and ensuring that the service provider is able to meet these needs with an appropriate catalogue of services.",
+        "The Business Relationship Manager works closely with the Service Level Manager." ;
+    skos:member itilproc:Service_Strategy,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Business Relationship Manager" .
+
+itilrole:CSI_Manager a skos:concept ;
+    rdfs:label "CSI Manager" ;
+    skos:definition "He will continually measure the performance of the service provider and design improvements to processes, services and infrastructure in order to increase efficiency, effectiveness, and cost effectiveness.",
+        "The Continual Service Improvement (CSI) Manager is responsible for managing improvements to IT Service Management processes and IT services." ;
+    skos:member itilproc:Continual_Service_Improvement,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "CSI Manager" .
+
+itilrole:Capacity_Manager a skos:concept ;
+    rdfs:label "Capacity Manager" ;
+    skos:definition "He considers all resources required to deliver the service, and plans for short, medium and long term business requirements.",
+        "The Capacity Manager is responsible for ensuring that services and infrastructure are able to deliver the agreed capacity and performance targets in a cost effective and timely manner." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Capacity Manager" .
+
+<http://eden.dei.uc.pt/~jcardoso/rdf/itil/roles.ttl#Change_Advisory_Board_(CAB)> a skos:concept ;
+    rdfs:label "Change Advisory Board (CAB)" ;
+    skos:member itilproc:Service_Transition,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Change Advisory Board (CAB)" .
+
+itilrole:Compliance_Manager a skos:concept ;
+    rdfs:label "Compliance Manager" ;
+    skos:definition "The Compliance Manager's responsibility is to ensure that standards and guidelines is followed, or that proper, consistent accounting or other practices are being employed.",
+        "This includes to make sure that external legal requirements are fulfilled." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Compliance Manager" .
+
+itilrole:Demand_Manager a skos:concept ;
+    rdfs:label "Demand Manager" ;
+    skos:definition "The Demand Manager is responsible for understanding, anticipating and influencing customer demand for services.",
+        "The Demand Manager works with capacity management to ensure that the service provider has sufficient capacity to meet the required demand.",
+        "The role Demand Manager has been introduced in ITIL 2011 to perform the activities in the Demand Management process." ;
+    skos:member itilproc:Service_Strategy,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Demand Manager" .
+
+itilrole:Enterprise_Architect a skos:concept ;
+    rdfs:label "Enterprise Architect" ;
+    skos:definition "Bigger organizations may opt to introduce specialist EA roles like Business Architect, Application Architect, Information Architect, or Infrastructure Architect.",
+        "The Enterprise Architect is responsible for maintaining the Enterprise Architecture (EA), a description of the essential components of a business, including their interrelationships." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Enterprise Architect" .
+
+itilrole:Facilities_Manager a skos:concept ;
+    rdfs:label "Facilities Manager" ;
+    skos:definition "The Facilities Manager is responsible for managing the physical environment where the IT infrastructure is located.",
+        "This includes all aspects of managing the physical environment, for example power and cooling, building access management, and environmental monitoring." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Facilities Manager" .
+
+itilrole:Financial_Manager a skos:concept ;
+    rdfs:label "Financial Manager" ;
+    skos:definition "The Financial Manager is responsible for managing an IT service provider's budgeting, accounting and charging requirements." ;
+    skos:member itilproc:Service_Strategy,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Financial Manager" .
+
+itilrole:IT_Operations_Manager a skos:concept ;
+    rdfs:label "IT Operations Manager" ;
+    skos:definition "An IT Operations Manager will be needed to take overall responsibility for a number of Service Operation activities.",
+        "For instance, this role will ensure that all day-to-day operational activities are carried out in a timely and reliable way." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "IT Operations Manager" .
+
+itilrole:IT_Operator a skos:concept ;
+    rdfs:label "IT Operator" ;
+    skos:definition "IT Operators are the staff who perform the day-to-day operational activities.",
+        "Typical responsibilities include: Performing backups, ensuring that scheduled jobs are performed, installing standard equipment in the data center." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "IT Operator" .
+
+itilrole:IT_Service_Continuity_Manager a skos:concept ;
+    rdfs:label "IT Service Continuity Manager" ;
+    skos:definition "He ensures that the IT service provider can provide minimum agreed service levels in cases of disaster, by reducing the risk to an acceptable level and planning for the recovery of IT services.",
+        "The IT Service Continuity Manager is responsible for managing risks that could seriously impact IT services." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "IT Service Continuity Manager" .
+
+<http://eden.dei.uc.pt/~jcardoso/rdf/itil/roles.ttl#IT_Steering_Group_(ISG)> a skos:concept ;
+    rdfs:label "IT Steering Group (ISG)" ;
+    skos:definition "It also sets priorities of service development programs/ projects.",
+        "The ISG reviews the business and IT strategies in order to make sure that they are aligned.",
+        "The IT Steering Group (ISG) sets the direction and strategy for IT Services. It includes members of senior management from business and IT." ;
+    skos:member itilproc:Service_Strategy,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "IT Steering Group (ISG)" .
+
+itilrole:Incident_Manager a skos:concept ;
+    rdfs:label "Incident Manager" ;
+    skos:definition "He represents the first stage of escalation for Incidents, should these not be resolvable within the agreed Service Levels.",
+        "The Incident Manager is responsible for the effective implementation of the Incident Management process and carries out the corresponding reporting." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Incident Manager" .
+
+itilrole:Information_Security_Manager a skos:concept ;
+    rdfs:label "Information Security Manager" ;
+    skos:definition "He is usually involved in an organizational approach to Security Management which has a wider scope than the IT service provider, and includes handling of paper, building access, phone calls etc., for the entire organization.",
+        "The Information Security Manager is responsible for ensuring the confidentiality, integrity and availability of an organization’s assets, information, data and IT services." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Information Security Manager" .
+
+itilrole:Major_Incident_Team a skos:concept ;
+    rdfs:label "Major Incident Team" ;
+    skos:definition "A dynamically established team of IT managers and technical experts, usually under the leadership of theIncident Manager, formulated to concentrate on the resolution of a Major Incident." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Major Incident Team" .
+
+itilrole:Problem_Manager a skos:concept ;
+    rdfs:label "Problem Manager" ;
+    skos:definition "His primary objectives are to prevent Incidents from happening, and to minimize the impact of Incidents that cannot be prevented.",
+        "The Problem Manager is responsible for managing the lifecycle of all Problems.",
+        "To this purpose he maintains information about Known Errors and Workarounds." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Problem Manager" .
+
+itilrole:Process_Architect a skos:concept ;
+    rdfs:label "Process Architect" ;
+    skos:definition "The Process Architect is responsible for maintaining the Process Architecture (part of the Enterprise Architecture), coordinating all changes to processes and making sure that all processes cooperate in a seamless way.",
+        "This role often also supports all parties involved in managing and improving processes, in particular theProcess Owners. Some organizations combine this role with theEnterprise Architectrole." ;
+    skos:member itilproc:Continual_Service_Improvement,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Process Architect" .
+
+itilrole:Process_Owner a skos:concept ;
+    rdfs:label "Process Owner" ;
+    skos:definition "A role responsible for ensuring that a process is fit for purpose.",
+        "In larger organizations there might be separate Process Owner and Process Manager roles, where the Process Manager has responsibility for the operational management of a process.",
+        "The Process Owner’s responsibilities include sponsorship, design, and continual improvement of the process and its metrics." ;
+    skos:member itilproc:Continual_Service_Improvement,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Process Owner" .
+
+itilrole:Risk_Manager a skos:concept ;
+    rdfs:label "Risk Manager" ;
+    skos:definition "The Risk Manager is responsible for identifying, assessing and controlling risks.",
+        "This includes analyzing the value of assets to the business, identifying threats to those assets, and evaluating how vulnerable each asset is to those threats." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Risk Manager" .
+
+itilrole:Service_Catalogue_Manager a skos:concept ;
+    rdfs:label "Service Catalogue Manager" ;
+    skos:definition "The Service Catalogue Manager is responsible for maintaining the Service Catalogue, ensuring that all information within the Service Catalogue is accurate and up-to-date." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Service Catalogue Manager" .
+
+itilrole:Service_Design_Manager a skos:concept ;
+    rdfs:label "Service Design Manager" ;
+    skos:definition "The Service Design Manager is responsible for producing quality, secure and resilient designs for new or improved services.",
+        "This includes producing and maintaining all design documentation." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Service Design Manager" .
+
+itilrole:Service_Level_Manager a skos:concept ;
+    rdfs:label "Service Level Manager" ;
+    skos:definition "He makes sure that all IT Service Management processes, Operational Level Agreements and Underpinning Contracts are appropriate for the agreed service level targets.",
+        "The Service Level Manager also monitors and reports on service levels.",
+        "The Service Level Manager is responsible for negotiating Service Level Agreements and ensuring that these are met." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Service Level Manager" .
+
+itilrole:Service_Owner a skos:concept ;
+    rdfs:label "Service Owner" ;
+    skos:definition "Often, the Service Owner will lead a team of technical specialists or an internal support unit.",
+        "The Service Owner is responsible for delivering a particular service within the agreed service levels.",
+        "Typically, he acts as the counterpart of theService Level Managerwhen negotiating Operational Level Agreements (OLAs)." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Service Owner" .
+
+itilrole:Service_Portfolio_Manager a skos:concept ;
+    rdfs:label "Service Portfolio Manager" ;
+    skos:definition "The Service Portfolio Manager decides on a strategy to serve customers in cooperation with the IT Steering Group, and develops the service provider's offerings and capabilities." ;
+    skos:member itilproc:Service_Strategy,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Service Portfolio Manager" .
+
+itilrole:Service_Request_Fulfilment_Group a skos:concept ;
+    rdfs:label "Service Request Fulfilment Group" ;
+    skos:definition "Service Request Fulfilment Groups specialize on the fulfillment of certain types of Service Requests.",
+        "Typically,1st Level Supportwill process simpler requests, while others are forwarded to the specialized Fulfilment Groups." ;
+    skos:member itilproc:Service_Operation,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Service Request Fulfilment Group" .
+
+itilrole:Service_Strategy_Manager a skos:concept ;
+    rdfs:label "Service Strategy Manager" ;
+    skos:definition "The Service Strategy Manager has been introduced as a new role in ITIL 2011.",
+        "The Service Strategy Manager supports the IT Steering Group in producing and maintaining the service provider's strategy.",
+        "This role is also responsible for communicating and implementing the service strategy." ;
+    skos:member itilproc:Service_Strategy,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Service Strategy Manager" .
+
+itilrole:Supplier_Manager a skos:concept ;
+    rdfs:label "Supplier Manager" ;
+    skos:definition "He makes sure that contracts with suppliers support the needs of the business, and that all suppliers meet their contractual commitments.",
+        "The Supplier Manager is responsible for ensuring that value for money is obtained from all suppliers." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Supplier Manager" .
+
+itilrole:Technical_Analyst a skos:concept ;
+    rdfs:label "Technical Analyst" ;
+    skos:definition "It is also responsible for developing the skills required to operate the IT infrastructure.",
+        "The Technical Analyst is a Technical Management role which provides technical expertise and support for the management of the IT infrastructure.",
+        "There is typically one Technical Analyst or team of analysts for every key technology area.",
+        "This role plays an important part in the technical aspects of designing, testing, operating and improving IT services." ;
+    skos:member itilproc:Service_Design,
+        itilrole:ITIL_Roles ;
+    skos:prefLabel "Technical Analyst" .
+
+itilrole:jcardoso a foaf:Person ;
+    foaf:homepage <http://eden.dei.uc.pt/~jcardoso/> ;
+    foaf:name "Jorge Cardoso" .
+
+itilrole:ITIL_Roles a skos:concept ;
+    rdfs:label "ITIL Roles" ;
+    skos:prefLabel "ITIL Roles" .
+
