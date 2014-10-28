@@ -38,7 +38,7 @@ lss-usdl:jcardoso a foaf:Person;
 
 # Classes Service System and Contol Flow
 
-lss-usdl:ServiceSystem a rdfs:Class, owl:Class;
+lss-usdl:ServiceSystem a lss-usdl:Interaction, rdfs:Class, owl:Class;
     rdfs:label "Service System"@en .
 
 lss-usdl:ControlFlow a rdfs:Class, owl:Class;
@@ -68,7 +68,7 @@ lss-usdl:OR a rdfs:Class, owl:Class;
 	rdfs:label "OR" .
 	
 
-# Properties Service System adn Control Flow
+# Properties Service System and Control Flow
 
 lss-usdl:hasControlFlow a rdf:Property;
     rdfs:label "has control-flow"@en ;
@@ -110,8 +110,8 @@ lss-usdl:Goal a rdfs:Class, owl:Class;
 lss-usdl:Location a rdfs:Class, owl:Class;
     rdfs:label "Location" .
 
-lss-usdl:Process a rdfs:Class, owl:Class;
-    rdfs:label "Process" .
+lss-usdl:Step a rdfs:Class, owl:Class;
+    rdfs:label "Step" .
 
 lss-usdl:Resource a rdfs:Class, owl:Class;
     rdfs:subClassOf skos:Concept;
@@ -125,8 +125,8 @@ lss-usdl:hasInteraction a rdf:Property;
     rdfs:domain lss-usdl:ServiceSystem;
     rdfs:range lss-usdl:Interaction .
 
-lss-usdl:isPerformedBy a rdf:Property;
-    rdfs:label "is performed by";
+lss-usdl:hasRole a rdf:Property;
+    rdfs:label "has role";
     rdfs:domain lss-usdl:Interaction;
     rdfs:range lss-usdl:Role .
 
@@ -145,10 +145,10 @@ lss-usdl:hasLocation a rdf:Property;
     rdfs:domain lss-usdl:Interaction;
     rdfs:range lss-usdl:Location .
 
-lss-usdl:belongsToProcess a rdf:Property;
-    rdfs:label "belongs to process";
+lss-usdl:hasStep a rdf:Property;
+    rdfs:label "has step";
     rdfs:domain lss-usdl:Interaction;
-    rdfs:range lss-usdl:Process .
+    rdfs:range lss-usdl:Step .
 
 lss-usdl:receivesResource a rdf:Property;
     rdfs:label "receives resource";
@@ -169,39 +169,4 @@ lss-usdl:returnsResource a rdf:Property;
     rdfs:label "returns resource";
     rdfs:domain lss-usdl:Interaction;
     rdfs:range lss-usdl:Resource .
-
-lss-usdl:belongsToBusinessEntity a rdf:Property;
-    rdfs:label "belongs to business entity";
-    rdfs:domain lss-usdl:Role;
-    rdfs:range gr:BusinessEntity .
-
-lss-usdl:hasTemporalEntity a rdf:Property;
-    rdfs:label "has temporal entity";
-    rdfs:domain lss-usdl:Time;
-    rdfs:range time:TemporalEntity .
-
-lss-usdl:isLocatedIn a rdf:Property;
-    rdfs:label "is located in";
-    rdfs:domain lss-usdl:Location;
-    rdfs:range lss-usdl:Location .
-
-lss-usdl:isLocationFrom a rdf:Property;
-    rdfs:label "is location from";
-    rdfs:domain lss-usdl:Location;
-    rdfs:range gn:Feature .
-
-lss-usdl:hasQuantitativeValue a rdf:Property;
-    rdfs:label "has quantitative value";
-    rdfs:domain lss-usdl:Resource;
-    rdfs:range gr:QuantitativeValue .
-
-lss-usdl:hasDBpediaResource a rdf:Property;
-    rdfs:label "has DBpedia resource";
-    rdfs:domain lss-usdl:Resource;
-    rdfs:range dbpedia:resource .
-
-lss-usdl:hasBPMN a rdf:Property;
-    rdfs:label "has BPMN";
-    rdfs:domain lss-usdl:Process;
-    rdfs:range bpmn:Process .
-	
+s

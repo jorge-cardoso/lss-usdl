@@ -38,7 +38,7 @@ lss-usdl:jcardoso a foaf:Person;
 
 # Classes Service System and Contol Flow
 
-lss-usdl:ServiceSystem a rdfs:Class, owl:Class;
+lss-usdl:ServiceSystem a lss-usdl:Interaction, rdfs:Class, owl:Class;
     rdfs:label "Service System"@en .
 
 lss-usdl:ControlFlow a rdfs:Class, owl:Class;
@@ -125,8 +125,8 @@ lss-usdl:hasInteraction a rdf:Property;
     rdfs:domain lss-usdl:ServiceSystem;
     rdfs:range lss-usdl:Interaction .
 
-lss-usdl:isPerformedBy a rdf:Property;
-    rdfs:label "is performed by";
+lss-usdl:hasRole a rdf:Property;
+    rdfs:label "has role";
     rdfs:domain lss-usdl:Interaction;
     rdfs:range lss-usdl:Role .
 
