@@ -2,7 +2,7 @@ from rdflib import Graph, RDF, URIRef,  RDFS #, Literal, BNode
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sys, getopt
 
-        
+
 class ServiceSystem:
     'A API to a Service Systems'
     filename = ''
@@ -11,12 +11,12 @@ class ServiceSystem:
     def __init__(self, filename):
         ServiceSystem.filename = filename
         ServiceSystem.g.parse(filename, format='n3')
-      
+
     #------------------------------------------------------------------
-    #---------- Show information about the Service System ------------- 
+    #---------- Show information about the Service System -------------
     #------------------------------------------------------------------
     def getServiceInformation(self):
-       
+
        URIServiceSystem = URIRef("http://w3id.org/lss-usdl/v2#ServiceSystem")
        if ( None, RDF.type, URIServiceSystem ) in ServiceSystem.g:
            lss = ServiceSystem.g.value(predicate = RDF.type, object = URIServiceSystem, any = False)
@@ -30,11 +30,11 @@ class ServiceSystem:
        else:
            raise Exception("Cannot find Service System description!!")
 
-# Can also be done this way   
-#       for lss in ServiceSystem.g.subjects(RDF.type, URIRef("http://w3id.org/lss-usdl/v2#ServiceSystem")):    
-#           print "Service System Name: ", lss.rsplit("#", 2)[1]          
+# Can also be done this way
+#       for lss in ServiceSystem.g.subjects(RDF.type, URIRef("http://w3id.org/lss-usdl/v2#ServiceSystem")):
+#           print "Service System Name: ", lss.rsplit("#", 2)[1]
 #       for lss_description in ServiceSystem.g.objects(lss, RDFS.comment):
-#           print "Description:", lss_description    
+#           print "Description:", lss_description
 
        information=[]
        information.append(lss)
@@ -44,7 +44,7 @@ class ServiceSystem:
 
 
     #------------------------------------------------------------------
-    #-------------- Get Interactions   -------------------------------- 
+    #-------------- Get Interactions   --------------------------------
     #------------------------------------------------------------------
     def getInteractions(self):
         qres = ServiceSystem.g.query(
@@ -61,19 +61,19 @@ class ServiceSystem:
             rl = r.rsplit("#", 2)[1]
             results.append(rl)
             #print sl, "hasInteraction", rl
-    
+
         return results
 
-# Can also be done this way            
+# Can also be done this way
 #       print("")
-#       print "--- Interaction Points: ---" 
+#       print "--- Interaction Points: ---"
 #       for sub, obj in ServiceSystem.g.subject_objects(URIRef("http://w3id.org/lss-usdl/v2#hasInteraction")):
 #          interaction = obj.rsplit("#", 2)[1]
-#          print interaction            
+#          print interaction
 
 
     #------------------------------------------------------------------
-    #-------------- Connectors ---------------------------------------- 
+    #-------------- Connectors ----------------------------------------
     #------------------------------------------------------------------
     def getConnectors(self):
         qres = ServiceSystem.g.query(
@@ -95,12 +95,12 @@ class ServiceSystem:
             results.append([source, target, condition])
             #str = 'ControlFlow (' + source + ' -> ' + target + ') with condition "' + condition + '"'''
             #print str
-            
+
         return results
 
-    
+
     #------------------------------------------------------------------
-    #-------------- Get Service Roles --------------------------------- 
+    #-------------- Get Service Roles ---------------------------------
     #------------------------------------------------------------------
     def getRoles(self):
         qres = ServiceSystem.g.query(
@@ -120,10 +120,10 @@ class ServiceSystem:
 
         return results
 
-        
+
 
 #------------------------------------------------------------------
-#-------------- Interactions done by Role ------------------------- 
+#-------------- Interactions done by Role -------------------------
 #------------------------------------------------------------------
     def getInterationsByRole(self):
         qres = ServiceSystem.g.query(
@@ -141,12 +141,12 @@ class ServiceSystem:
             interaction = i.rsplit("#", 2)[1]
             role = r.rsplit("#", 2)[1]
             results.append([interaction, role])
-           
+
         return results
 
 
 #------------------------------------------------------------------
-#-------------- Interactions that receive and returns Resources --- 
+#-------------- Interactions that receive and returns Resources ---
 #------------------------------------------------------------------
     def getInteractionResources(self):
         qres = ServiceSystem.g.query(
@@ -165,11 +165,11 @@ class ServiceSystem:
             interaction = i.rsplit("#", 2)[1]
             resource = r.rsplit("#", 2)[1]
             results.append([interaction, resource])
-           
+
         return results
 
 #------------------------------------------------------------------
-#-------------- Interactions that only receive Resources: --------- 
+#-------------- Interactions that only receive Resources: ---------
 #------------------------------------------------------------------
     def getInteractionResourcesReceived(self):
         qres = ServiceSystem.g.query(
@@ -187,12 +187,12 @@ class ServiceSystem:
             interaction = i.rsplit("#", 2)[1]
             resource = r.rsplit("#", 2)[1]
             results.append([interaction, resource])
-           
+
         return results
 
 
 #------------------------------------------------------------------
-#-------------- Print first interaction: -------------------------- 
+#-------------- Print first interaction: --------------------------
 #------------------------------------------------------------------
 # Look for an interaction which is a source but not the target of any connector
 #
@@ -213,13 +213,13 @@ class ServiceSystem:
             s, i= row
             service = s.rsplit("#", 2)[1]
             interaction = i.rsplit("#", 2)[1]
-           
+
         return interaction
 
 
 
 #------------------------------------------------------------------
-#-------------- get last interaction(s) ------------------------- 
+#-------------- get last interaction(s) -------------------------
 #------------------------------------------------------------------
 # Look for an interaction which is a target but not the source of any connector
 #
@@ -240,7 +240,7 @@ class ServiceSystem:
             s, i= row
             service = s.rsplit("#", 2)[1]
             interaction = i.rsplit("#", 2)[1]
-           
+
         return interaction
 
 
@@ -265,7 +265,7 @@ class ServiceSystem:
             interaction = i.rsplit("#", 2)[1]
             resource = r.rsplit("#", 2)[1]
             results.append([interaction, resource, dbr])
-           
+
         return results
 
 #------------------------------------------------------------------
@@ -275,11 +275,11 @@ class ServiceSystem:
 
     #              ?dbres <http://dbpedia.org/ontology/abstract> ?abs .
         sparql=SPARQLWrapper("http://dbpedia.org/sparql")
-        qs="""SELECT DISTINCT ?abs 
-             WHERE { 
+        qs="""SELECT DISTINCT ?abs
+             WHERE {
              <"""
-        qe="""> dbpedia-owl:abstract ?abs . 
-              FILTER(langMatches(lang(?abs), "EN")) 
+        qe="""> dbpedia-owl:abstract ?abs .
+              FILTER(langMatches(lang(?abs), "EN"))
              }"""
 
         q=qs+resource+qe
@@ -293,7 +293,7 @@ class ServiceSystem:
             results.append(str)
 
         return results
-        
+
 
 
 
@@ -317,78 +317,71 @@ if __name__ == "__main__":
             inputfile = arg
 
     print 'Input file is: ', inputfile
-    print("")        
+    print("")
 
     ss = ServiceSystem("file:" + inputfile)
     results = ss.getServiceInformation()
-    print "Service System name: " + results[0].rsplit("#", 2)[1] 
+    print "Service System name: " + results[0].rsplit("#", 2)[1]
     print "Service System desc: " + results[1]
-    print("")        
+    print("")
 
     results = ss.getInteractions()
     for interation in results:
         print "Interaction: " + interation
-    print("")        
+    print("")
 
     results = ss.getConnectors()
     for result in results:
         str = 'getConnectors: (' + result[0] + ' -> ' + result[1] + ') with condition "' + result[2] + '"'''
         print str
-    print("")        
+    print("")
 
     results = ss.getRoles()
     for role in results:
         print "getRoles: " + role
-    print("")  
+    print("")
 
     results = ss.getInterationsByRole()
     for result in results:
         str = 'getInterationsByRole: ' + result[0] + ' with role ' + result[1]
         print str
-    print("") 
+    print("")
 
     results = ss.getInteractionResources()
     for result in results:
         str = 'getInteractionResources: ' + result[0] + ' with resource ' + result[1]
         print str
-    print("") 
+    print("")
 
     results = ss.getInteractionResourcesReceived()
     for result in results:
         str = 'getInteractionResourcesReceived: ' + result[0] + ' with resource ' + result[1]
         print str
-    print("") 
+    print("")
 
     results = ss.getFirstInteraction()
     if results:
-        str = 'getFirstInteraction: ' + results 
+        str = 'getFirstInteraction: ' + results
         print str
-        print("") 
+        print("")
 
     results = ss.getLastInteraction()
     if results:
-        str = 'getLastInteraction: ' + results 
+        str = 'getLastInteraction: ' + results
         print str
-        print("") 
+        print("")
 
     results = ss.getDBPediaResources()
     for result in results:
         str = 'getDBPediaResources: ' + result[0] + ' with resource ' + result[1] + ' -> ' + result[2]
         print str
-    print("") 
+    print("")
 
     results = ss.getDBPediaResources()
     for result in results:
         dbpediaAbstracts = ss.getDBPediaAbstract(result[2])
         for dbpediaAbstract in dbpediaAbstracts:
-            str = 'getDBPediaAbstract: ' + result[2] + ': ' +  dbpediaAbstract 
+            str = 'getDBPediaAbstract: ' + result[2] + ': ' +  dbpediaAbstract
             print str
-            print("") 
-    print("") 
-
-
-
-
-
-
-
+            print("")
+    print("")

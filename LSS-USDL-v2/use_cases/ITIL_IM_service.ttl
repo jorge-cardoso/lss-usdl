@@ -6,7 +6,7 @@
 @prefix gr: <http://purl.org/goodrelations/v1#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix time: <http://www.w3.org/2006/time#> .
-@prefix lss-usdl: <http://w3id.org/lss-usdl/v1#> .
+@prefix lss-usdl: <http://w3id.org/lss-usdl/v2#> .
 
 @prefix dbpedia: <http://dbpedia.org/#> .
 @prefix dbpediar: <http://dbpedia.org/resource/> .
@@ -25,7 +25,7 @@
   owl:sameAs dbpedia:Incident_Management ;
   itsmo:hasAgreement itsmo:Agreement ;
 
-  lss-usdl:hasInteraction 
+  lss-usdl:hasInteraction
   		:IncidentIdentification ,
 		:IncidentLogging ,
 		:IncidentCategorization ,
@@ -35,13 +35,13 @@
 		:InvestigationDiagnosis ,
 		:ResolutionRecovery ,
 		:IncidentClosing ;
-		
+
    lss-usdl:hasControlFlow
    	 	:ControlFlow_Ide_Log,
-		:ControlFlow_Log_Cat , 
-		:ServiceRequest , 
-		:ControlFlow_Cat_SR , 
-		:ControlFlow_SR_Pri , 
+		:ControlFlow_Log_Cat ,
+		:ServiceRequest ,
+		:ControlFlow_Cat_SR ,
+		:ControlFlow_SR_Pri ,
 		:ControlFlow_Pri_MI ,
 		:ControlFlow_MI_Dia ,
 		:ControlFlow_Dia_E ,
@@ -50,8 +50,8 @@
 		:ControlFlow_Esc_IDia ,
 		:ControlFlow_IDia_Res ,
 		:ControlFlow_Res .
-		
-	
+
+
 # -----------------------------
 # Flow of interactions
 # -----------------------------
@@ -155,7 +155,7 @@
 	lss-usdl:createsResource :IncidentID ;
 	lss-usdl:createsResource :IncidentReport ;
 	lss-usdl:returnsResource :IncidentReport ;
-	lss-usdl:hasTime 
+	lss-usdl:hasTime
 		[ a lss-usdl:Time ;
     		lss-usdl:hasTemporalEntity :IncidentIdentificationTime ] .
 
@@ -165,25 +165,25 @@
 # -----------------------------
 
 :IncidentLogging a lss-usdl:BackstageInteraction ;
-	rdfs:label "An incident is logged" ; 
-	rdfs:comment "Incidents reported to the Service Desk must be logged with the date and time stamp that they were generated." ; 
-	lss-usdl:performedBy :ServiceDeskManager ; 
-	lss-usdl:hasGoal :DealWithReportedIncident ; 
-	lss-usdl:hasLocation :Company ; 
+	rdfs:label "An incident is logged" ;
+	rdfs:comment "Incidents reported to the Service Desk must be logged with the date and time stamp that they were generated." ;
+	lss-usdl:performedBy :ServiceDeskManager ;
+	lss-usdl:hasGoal :DealWithReportedIncident ;
+	lss-usdl:hasLocation :Company ;
 	lss-usdl:belongsToProcess :ITServicesIncidentManagement ;
-	lss-usdl:consumesResource :ReporterData ; 
-	lss-usdl:consumesResource :IncidentData ; 
+	lss-usdl:consumesResource :ReporterData ;
+	lss-usdl:consumesResource :IncidentData ;
 	lss-usdl:createsResource :IncidentRecord ;
 	lss-usdl:createsResource :IncidentID ;
 
-	lss-usdl:hasTime 
-		[ a lss-usdl:Time ; 
+	lss-usdl:hasTime
+		[ a lss-usdl:Time ;
 			lss-usdl:hasTemporalEntity :IncidentLoggingTime ] .
 
-:IncidentLoggingTime a time:ProperInterval ; 
-	time:intervalAfter :IncidentIdentificationTime ; 
-	time:intervalBefore :IncidentCategorizationTime . 
-	
+:IncidentLoggingTime a time:ProperInterval ;
+	time:intervalAfter :IncidentIdentificationTime ;
+	time:intervalBefore :IncidentCategorizationTime .
+
 
 # -----------------------------
 # Categorize Incident
@@ -197,7 +197,7 @@
 	lss-usdl:belongsToProcess :IncidentManagement ;
 	lss-usdl:receivesResource :IncidentReport ;
 	lss-usdl:consumeResource :IncidentReport ;
-	lss-usdl:hasTime 
+	lss-usdl:hasTime
 		[ a lss-usdl:Time ;
     		lss-usdl:hasTemporalEntity :IncidentCategorizationTime
 		] .
@@ -215,7 +215,7 @@
 	lss-usdl:belongsToProcess :IncidentManagement ;
 	lss-usdl:receivesResource :IncidentReport ;
 	lss-usdl:consumeResource :IncidentReport ;
-	lss-usdl:hasTime 
+	lss-usdl:hasTime
 		[ a lss-usdl:Time ;
    		 	lss-usdl:hasTemporalEntity :IncidentPrioritizationTime
 		 ] .
@@ -226,21 +226,21 @@
 # -----------------------------
 
 
-:InitialDiagnosis a lss-usdl:BackstageInteraction ; 
-rdfs:label "An initial diagnosis for the incident is performed" ; 
-rdfs:comment "The initial diagnosis of incidents is mainly a human process. The Service Desk technical staff looks at the information within the incident and communicates with the user to diagnose the problem." ; 
+:InitialDiagnosis a lss-usdl:BackstageInteraction ;
+rdfs:label "An initial diagnosis for the incident is performed" ;
+rdfs:comment "The initial diagnosis of incidents is mainly a human process. The Service Desk technical staff looks at the information within the incident and communicates with the user to diagnose the problem." ;
 
 lss-usdl:performedBy :TechnicalStaff ;
-	lss-usdl:hasGoal :HandleIncident ; 
+	lss-usdl:hasGoal :HandleIncident ;
 	lss-usdl:hasTime [ a lss-usdl:Time ;
-		lss-usdl:hasTemporalEntity :InitialDiagnosisTime ] ; 
-	lss-usdl:hasLocation :ABCompany ; 
-	lss-usdl:belongsToProcess :ITServiceIncidentManagement ; 
+		lss-usdl:hasTemporalEntity :InitialDiagnosisTime ] ;
+	lss-usdl:hasLocation :ABCompany ;
+	lss-usdl:belongsToProcess :ITServiceIncidentManagement ;
 	lss-usdl:consumesResource :IncidentRecord .
 
 :IncidentInitialDiagnosisTime a time:ProperInterval ;
-	time:intervalAfter :DetermineIfIncidentIsMajorTime ; 
-	time:intervalBefore :DetermineIfFunctionalScalationIsNeededTime . 
+	time:intervalAfter :DetermineIfIncidentIsMajorTime ;
+	time:intervalBefore :DetermineIfFunctionalScalationIsNeededTime .
 
 
 # -----------------------------
@@ -307,7 +307,7 @@ lss-usdl:performedBy :TechnicalStaff ;
 	lss-usdl:consumeResource :IncidentReport ;
 	lss-usdl:hasTime [ a lss-usdl:Time ;
     lss-usdl:hasTemporalEntity :IncidentClosingTime] .
-			 
+
 
 # -----------------------------
 # Business Entities
@@ -316,7 +316,7 @@ lss-usdl:performedBy :TechnicalStaff ;
 :TheCompany a gr:BusinessEntity ;
 	foaf:name "The Company" ;
 	rdfs:comment "The company where the IM process happend" .
-	
+
 :TechnologySupplierCompany a gr:BusinessEntity ;
 	foaf:name "Supplier Company" ;
 	rdfs:comment "Other company that participate of the IM process" .
@@ -330,12 +330,12 @@ lss-usdl:performedBy :TechnicalStaff ;
 	rdfs:label "Incident Manager" ;
 	rdfs:comment "The person who owns the results of the Incident Management process" ;
   lss-usdl:belongsToBusinessEntity :ABCompany .
-  
+
 :EndUser a lss-usdl:Role ;
 	rdfs:label "End User" ;
-	rdfs:comment "The end users and employees of a company that experience difficulties with IT." ;  
+	rdfs:comment "The end users and employees of a company that experience difficulties with IT." ;
     lss-usdl:belongsToBusinessEntity :ABCompany .
-    
+
 :ServiceDeskManager a lss-usdl:Role ;
 	rdfs:label "Service Desk Manager" ;
 	rdfs:comment "Functions as the primary point of contact for incidents reported from users." ;
@@ -345,10 +345,10 @@ lss-usdl:performedBy :TechnicalStaff ;
 	rdfs:label "Technical Staff" ;
 	rdfs:comment "Support Technical Staff" ;
 	lss-usdl:belongsToBusinessEntity :ABCompany .
-	
+
 :ProblemManager a lss-usdl:Role ;
 	rdfs:label "Problem Manager" ;
-	rdfs:comment "Responsible for managing the lifecycle of all problems." ; 
+	rdfs:comment "Responsible for managing the lifecycle of all problems." ;
   	lss-usdl:belongsToBusinessEntity :ExtCompany .
 
 
@@ -412,7 +412,7 @@ lss-usdl:performedBy :TechnicalStaff ;
 
 :IncidentReport a dbpediar:Report ;
 	rdfs:label "Report" .
-	
+
 #				a dbpediar:Form_\(Document\);
 
 
@@ -444,7 +444,7 @@ lss-usdl:performedBy :TechnicalStaff ;
 # -----------------------------
 :IncidentIdentificationTime a time:ProperInterval ;
    time:intervalAfter :IncidentCategorizationTime .
-   
+
 :IncidentCategorizationTime a time:ProperInterval ;
    time:intervalBefore :IncidentIdentificationTime ;
    time:intervalAfter :IncidentPrioritizationTime .
@@ -465,7 +465,7 @@ lss-usdl:performedBy :TechnicalStaff ;
 :ResolutionRecoveryTime a time:ProperInterval ;
    time:intervalBefore :InvestigationDiagnosisTime ;
    time:intervalAfter :IncidentClosureTime ;
-   time:intervalEquals :scalationSecondTime .	
+   time:intervalEquals :scalationSecondTime .
 
 :IncidentClosingTime a time:ProperInterval;
    time:intervalBefore :ResolutionRecoveryTime.
@@ -477,5 +477,3 @@ lss-usdl:performedBy :TechnicalStaff ;
 :scalationSecondTime a time:TemporalEntity ;
    rdfs:label "Scalation time for second level" ;
    rdfs:comment "Need to define hasDurationDescription" .
-
-
